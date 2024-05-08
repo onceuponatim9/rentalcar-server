@@ -26,7 +26,7 @@ $(document).ready(() => {
 			$('#error-msg-name').show();
 			$('#name').css('border', 'solid 1px tomato');
 		} else {
-			$('#error-msg-password').hide();
+			$('#error-msg-name').hide();
 			$('#name').css('border', 'solid 1px lightgrey');
 			$('#name').css('border-bottom', 'none');
 		}
@@ -51,12 +51,23 @@ $(document).ready(() => {
 		}
 	});
 	
+	$('#license').focusout(e => {
+		if($('#license').val() === null) {
+			$('#error-msg-license').show();
+			$('#license').css('border', 'solid 1px tomato');
+		} else {
+			$('#error-msg-license').hide();
+			$('#license').css('border', 'solid 1px lightgrey');
+			$('#license').css('border-bottom', 'none');
+		}
+	});
+	
 	$('#telecom').focusout(e => {
 		if($('#telecom').val() === null) {
 			$('#error-msg-telecom').show();
 			$('#telecom').css('border', 'solid 1px tomato');
 		} else {
-			$('#error-msg-birth').hide();
+			$('#error-msg-telecom').hide();
 			$('#telecom').css('border', 'solid 1px lightgrey');
 			$('#telecom').css('border-bottom', 'none');
 		}
@@ -106,6 +117,10 @@ $(document).ready(() => {
 		const telecom = $('#telecom').val();
 		console.log("telecom : ", telecom);
 		
+		const gender = e.target.gender.value;
+		const country = e.target.country.value;
+		const license = e.target.country.value;
+		
 		const phone = $('#phone').val();
 		
 		const agree = $('#agree')[0].checked;
@@ -138,6 +153,27 @@ $(document).ready(() => {
 			isValid = false;
 			$('#error-msg-telecom').show();
 			$('#telecom').css('border', 'solid 1px tomato');
+		}
+		if(gender === "") {
+			isValid = false;
+			$('#error-msg-gender').show();
+			$('#radio-container').css('border', 'solid 1px tomato');
+			$('#gender-man-label').css('border', 'solid 1px tomato');
+			$('#gender-woman-label').css('border', 'solid 1px tomato');
+		}
+		if(country === "") {
+			isValid = false;
+			$('#error-msg-country').show();
+			$('#radio-container').css('border', 'solid 1px tomato');
+			$('#country-local-label').css('border', 'solid 1px tomato');
+			$('#country-foreigner-label').css('border', 'solid 1px tomato');
+		}
+		if(license === "") {
+			isValid = false;
+			$('#error-msg-license').show();
+			$('#radio-container').css('border', 'solid 1px tomato');
+			$('#license-yes-label').css('border', 'solid 1px tomato');
+			$('#license-no-label').css('border', 'solid 1px tomato');
 		}
 		if(phone === "") {
 			isValid = false;

@@ -5,7 +5,7 @@ $(document).ready(() => {
 		if(id !== '') {
 			$.ajax({
 				"method": "POST",
-				"url": `search/user?id=${id}`,
+				"url": `/search/user?id=${id}`,
 			}).done(response => {
 				if(!response.isValid) {
 					$('#id').val('');
