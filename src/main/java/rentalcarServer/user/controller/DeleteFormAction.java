@@ -6,11 +6,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import rentalcarServer.user.model.UserDao;
+import rentalcarServer.user.model.UserRequestDto;
+import rentalcarServer.user.model.UserResponseDto;
 
 /**
  * Servlet implementation class DeleteFormAction
  */
-@WebServlet("/DeleteFormAction")
+
 public class DeleteFormAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,8 +39,34 @@ public class DeleteFormAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+
+		UserDao userDao = UserDao.getInstance();
+		
+		HttpSession session = request.getSession();
+
+		UserResponseDto user = (UserResponseDto) session.getAttribute("user");
+
+		String id = user.getId();
+		String password = request.getParameter("password");
+
+		// 패스워드가 일치하면 -> 삭제 처리 
+		UserRequestDto userDto = new UserRequestDto();
+
+		userDto.setId(id);
+		userDto.setPassword(password);
+
+		boolean result = userDao.deleteUser(userDto);
+
+		
+
+
+		if(result) {
+			session.removeAttribute("user");
+			response.sendRedirect("/");
+		} else {	
+			response.sendRedirect("/deleteUserForm");
+		}
 	}
 
 }

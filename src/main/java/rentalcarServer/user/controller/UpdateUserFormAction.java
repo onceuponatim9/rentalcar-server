@@ -6,11 +6,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import rentalcarServer.user.model.UserDao;
+import rentalcarServer.user.model.UserRequestDto;
+import rentalcarServer.user.model.UserResponseDto;
 
 /**
  * Servlet implementation class UpdateUserFormAction
  */
-@WebServlet("/UpdateUserFormAction")
 public class UpdateUserFormAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,8 +38,47 @@ public class UpdateUserFormAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+
+		UserDao userDao = UserDao.getInstance();
+		
+		HttpSession session = request.getSession();
+
+		UserResponseDto user = (UserResponseDto) session.getAttribute("user");
+
+		String password = request.getParameter("password");
+
+		// 입력된 패스워드 검증 후, 
+		if(userDao.findUserByIdAndPassword(user.getId(), password) != null) {
+			UserRequestDto userDto = new UserRequestDto();
+			
+			userDto.setId(user.getId());
+			userDto.setPassword(password);
+			
+			String newPassword = request.getParameter("password-new");
+			String email = request.getParameter("email");
+			
+			String telecom = request.getParameter("telecom");
+			String phone = request.getParameter("phone");
+			
+			if(!newPassword.equals("") && !newPassword.equals(password)) {
+				user = userDao.updateUserPassword(userDto, newPassword);
+			}
+			
+			if(user.getEmail() != null && !user.getEmail().equals(email)) {
+				userDto.setEmail(email);
+				user = userDao.updateUserEmail(userDto);
+			}
+			
+			if(!user.getTelecom().equals(telecom) || !user.getPhone().equals(phone)) {
+				userDto.setTelecom(telecom);
+				userDto.setPhone(phone);
+				user = userDao.updateUserPhone(userDto);
+			}
+		}
+		session.setAttribute("user", user);
+		response.sendRedirect("/mypage");
+
 	}
 
 }

@@ -45,6 +45,7 @@ public class JoinFormAction extends HttpServlet {
 		String birth = request.getParameter("birth");
 		String gender = request.getParameter("gender");
 		String country = request.getParameter("country");
+		String license = request.getParameter("license");
 		String telecom = request.getParameter("telecom");
 		String phone = request.getParameter("phone");
 		String agree = request.getParameter("agree");
@@ -67,6 +68,8 @@ public class JoinFormAction extends HttpServlet {
 		else if(gender == null || gender.equals(""))
 			isValid = false;
 		else if(country == null || country.equals(""))
+			isValid = false;
+		else if(license == null || license.equals(""))
 			isValid = false;
 		else if(telecom == null || telecom.equals(""))
 			isValid = false;
@@ -93,7 +96,7 @@ public class JoinFormAction extends HttpServlet {
 			// 정보가 일치하면
 			// 가입 처리 후, 페이지 이동
 			
-			UserRequestDto userDto = new UserRequestDto(id, password, email, name, birth, gender, country, telecom, phone, agree);
+			UserRequestDto userDto = new UserRequestDto(id, password, email, name, birth, gender, country, license, telecom, phone, agree);
 			
 			UserDao userDao = UserDao.getInstance();
 			UserResponseDto user = userDao.createUser(userDto);
