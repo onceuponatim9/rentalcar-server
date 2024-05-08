@@ -48,7 +48,7 @@ public class UserDao {
 			conn = DBManager.getConnection();
 			
 			// 쿼리할 준비 
-			String sql = "SELECT userId, email, name, birth, gender, country, telecom, phone, agree FROM users";
+			String sql = "SELECT userId, email, name, birth, gender, country, license, telecom, phone, agree FROM users";
 			pstmt = conn.prepareStatement(sql);
 			
 			// 쿼리 실행 
@@ -63,11 +63,12 @@ public class UserDao {
 				String birth = rs.getString(4);
 				String gender = rs.getString(5);
 				String country = rs.getString(6);
-				String telecom = rs.getString(7);
-				String phone = rs.getString(8);
-				boolean agree = rs.getBoolean(9);
+				String license = rs.getString(7);
+				String telecom = rs.getString(8);
+				String phone = rs.getString(9);
+				boolean agree = rs.getBoolean(10);
 				
-				UserResponseDto user = new UserResponseDto(id, email, name, birth, gender, country, telecom, phone, agree);
+				UserResponseDto user = new UserResponseDto(id, email, name, birth, gender, country, license, telecom, phone, agree);
 				list.add(user);
 			}
 		} catch (SQLException e) {
@@ -98,7 +99,7 @@ public class UserDao {
 		try {
 			conn = DBManager.getConnection();
 			
-			String sql = "SELECT userId, email, name, birth, gender, country, telecom, phone, agree, password FROM users WHERE userId=?";
+			String sql = "SELECT userId, email, name, birth, gender, country, license, telecom, phone, agree, password FROM users WHERE userId=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -113,13 +114,14 @@ public class UserDao {
 				String birth = rs.getString(4);
 				String gender = rs.getString(5);
 				String country = rs.getString(6);
-				String telecom = rs.getString(7);
-				String phone = rs.getString(8);
-				boolean agree = rs.getBoolean(9);
-				String encryptedPassword = rs.getString(10);
+				String license = rs.getString(7);
+				String telecom = rs.getString(8);
+				String phone = rs.getString(9);
+				boolean agree = rs.getBoolean(10);
+				String encryptedPassword = rs.getString(11);
 				
 				if(PasswordCrypto.decrypt(password, encryptedPassword))
-					user = new UserResponseDto(id, email, name, birth, gender, country, telecom, phone, agree);
+					user = new UserResponseDto(id, email, name, birth, gender, country, license, telecom, phone, agree);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,7 +139,7 @@ public class UserDao {
 		try {
 			conn = DBManager.getConnection();
 			
-			String sql = "INSERT INTO users(userId, password, email, name, birth, gender, country, telecom, phone, agree) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO users(userId, password, email, name, birth, gender, country, license, telecom, phone, agree) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -153,9 +155,10 @@ public class UserDao {
 			pstmt.setString(5, userDto.getBirth());
 			pstmt.setString(6, userDto.getGender());
 			pstmt.setString(7, userDto.getCountry());
-			pstmt.setString(8, userDto.getTelecom());
-			pstmt.setString(9, userDto.getPhone());
-			pstmt.setBoolean(10, userDto.isAgree());
+			pstmt.setString(8, userDto.getLicense());
+			pstmt.setString(9, userDto.getTelecom());
+			pstmt.setString(10, userDto.getPhone());
+			pstmt.setBoolean(11, userDto.isAgree());
 			
 			pstmt.execute();
 			
@@ -273,7 +276,7 @@ public class UserDao {
 		try {
 			conn = DBManager.getConnection();
 			
-			String sql = "SELECT userId, email, name, birth, gender, country, telecom, phone, agree, reg_date, mod_date FROM users WHERE userId=?";
+			String sql = "SELECT userId, email, name, birth, gender, country, license, telecom, phone, agree, reg_date, mod_date FROM users WHERE userId=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
@@ -286,13 +289,14 @@ public class UserDao {
 				String birth = rs.getString(4);
 				String gender = rs.getString(5);
 				String country = rs.getString(6);
-				String telecom = rs.getString(7);
-				String phone = rs.getString(8);
-				boolean agree = rs.getBoolean(9);
-				Timestamp regDate = rs.getTimestamp(10);
-				Timestamp modDate = rs.getTimestamp(11);
+				String license = rs.getString(7);
+				String telecom = rs.getString(8);
+				String phone = rs.getString(9);
+				boolean agree = rs.getBoolean(10);
+				Timestamp regDate = rs.getTimestamp(11);
+				Timestamp modDate = rs.getTimestamp(12);
 				
-				user = new User(id, email, name, birth, gender, country, telecom, phone, agree, regDate, modDate);
+				user = new User(id, email, name, birth, gender, country, license, telecom, phone, agree, regDate, modDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
