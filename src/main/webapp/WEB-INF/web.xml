@@ -65,6 +65,15 @@
 		<url-pattern>/search/user</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>bookingFormAction</servlet-name>
+		<servlet-class>rentalcarServer.user.controller.bookingFormAction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>bookingFormAction</servlet-name>
+		<url-pattern>/bookingFormAction</url-pattern>
+	</servlet-mapping>
+	
 	
 	<!-- JSP files mapping -->
 	<servlet>
@@ -123,4 +132,47 @@
     <servlet-name>deleteUserForm</servlet-name>
     <url-pattern>/deleteUserForm</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>carList</servlet-name>
+    <jsp-file>/views/user/carList.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>carList</servlet-name>
+    <url-pattern>/carList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>carInfo</servlet-name>
+    <jsp-file>/views/user/carInfo.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>carInfo</servlet-name>
+    <url-pattern>/carInfo</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>bookingPage</servlet-name>
+    <jsp-file>/views/user/bookingPage.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>bookingPage</servlet-name>
+    <url-pattern>/bookingPage</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>chargeForm</servlet-name>
+    <jsp-file>/views/user/chargeForm.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>chargeForm</servlet-name>
+    <url-pattern>/chargeForm</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>myBookingList</servlet-name>
+    <jsp-file>/views/user/myBookingList.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>myBookingList</servlet-name>
+    <url-pattern>/myBookingList</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
