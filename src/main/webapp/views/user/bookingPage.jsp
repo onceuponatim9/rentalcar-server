@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<section id="root">
+		<h2>예약하기</h2>
+		<form method="POST" action="/bookingFormAction">
+		</form>
+	</section>
 </body>
 </html>
