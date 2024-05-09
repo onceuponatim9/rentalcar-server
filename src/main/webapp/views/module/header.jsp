@@ -11,6 +11,27 @@
 <title>Rental Car Service</title>
 </head>
 <body>
-
+	<header>
+		<c:choose>
+			<c:when test="${not empty user }">
+			<button onclick="location.href='/logout'">로그아웃</button>
+			</c:when>
+			<c:otherwise>
+			<button onclick="location.href='/login'">로그인</button>
+			</c:otherwise>
+		</c:choose>
+		<%--
+		if(session.getAttribute("user") == null) {
+		--%>
+			<!--  <button onclick="location.href='/login'">로그인</button>-->
+		<%--
+		} else {
+		--%>
+			<!--  <button onclick="location.href='/logout'">로그아웃</button>-->
+		<%--
+		}
+		--%>
+		
+	</header>
 </body>
 </html>
