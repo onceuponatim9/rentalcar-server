@@ -9,11 +9,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
-import org.apache.tomcat.jdbc.pool.DataSource;
-
 import rentalcarServer.util.DBManager;
 import rentalcarServer.util.PasswordCrypto;
 
@@ -79,14 +74,6 @@ public class UserDao {
 		return list;
 	}
 	
-	public boolean userExists(UserRequestDto userDto) {
-		return findUserByIdAndPassword(userDto.getId(), userDto.getPassword()) != null;
-	}
-	
-	public boolean userExists(String id) {
-		return findUserById(id) != null;
-	}
-	
 	public UserResponseDto findUserByIdAndPassword(String id, String password) {
 		UserResponseDto user = null;
 		
@@ -131,6 +118,15 @@ public class UserDao {
 		return user;
 	}
 	
+	public boolean userExists(UserRequestDto userDto) {
+		return findUserByIdAndPassword(userDto.getId(), userDto.getPassword()) != null;
+	}
+	
+	public boolean userExists(String id) {
+		return findUserById(id) != null;
+	}
+	
+	
 	public UserResponseDto createUser(UserRequestDto userDto) {
 		// sql 구문을 쿼리하고 
 		// 성공을 했다면 -> UserResponseDto 객체 생성하여 
@@ -141,6 +137,7 @@ public class UserDao {
 			
 			String sql = "INSERT INTO users(userId, password, email, name, birth, gender, country, license, telecom, phone, agree) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
+			System.out.println("conn : " + conn);
 			pstmt = conn.prepareStatement(sql);
 			
 			// sql 구문에 맵핑할 값 설정 
@@ -179,9 +176,12 @@ public class UserDao {
 			return user;
 		}
 		
+		if (!userExists(userDto)) {
+			return user;
+		}
+		
 		try {
-			if(findUserByIdAndPassword(userDto.getId(), userDto.getPassword()) == null)
-				return user;
+			conn = DBManager.getConnection();
 			
 			String sql = "UPDATE users SET password=? WHERE userId=?";
 			
@@ -205,9 +205,12 @@ public class UserDao {
 	
 	public UserResponseDto updateUserEmail(UserRequestDto userDto) {
 		UserResponseDto user = null;
+		
+		if (!userExists(userDto)) {
+			return user;
+		}
 		try {
-			if(findUserByIdAndPassword(userDto.getId(), userDto.getPassword()) == null)
-				return user;
+			conn = DBManager.getConnection();
 			
 			String sql = "UPDATE users SET email=? WHERE userId=?";
 			pstmt = conn.prepareStatement(sql);
@@ -226,9 +229,44 @@ public class UserDao {
 		return user;
 	}
 	
+	public UserResponseDto updateUserLicense(UserRequestDto userDto) {
+		UserResponseDto user = null;
+		
+		if(!userExists(userDto)) {
+			return user;
+		}
+		
+		try {
+			conn = DBManager.getConnection();
+			String sql = "UPDATE users SET license=? WHERE userId=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userDto.getLicense());
+			pstmt.setString(2, userDto.getId());
+			
+			pstmt.execute();
+			
+			user = findUserByIdAndPassword(userDto.getId(), userDto.getPassword());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.close(conn, pstmt);
+		}
+		
+		return user;
+	}
+	
 	public UserResponseDto updateUserPhone(UserRequestDto userDto) {
 		UserResponseDto user = null;
+		
+		if (!userExists(userDto)) {
+			return user;
+		}
+		
 		try {
+			conn = DBManager.getConnection();
+			
 			String sql = "UPDATE users SET telecom=?, phone=? WHERE userId=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userDto.getTelecom());
@@ -248,15 +286,38 @@ public class UserDao {
 	}
 	
 	public boolean deleteUser(UserRequestDto userDto) {
-		if(findUserByIdAndPassword(userDto.getId(), userDto.getPassword()) == null)
+//		if (!userExists(userDto)) {
+//			return false;
+//		}
+//
+//		try {
+//			String sql = "DELETE FROM users WHERE userId=? AND password=?";
+//			pstmt = conn.prepareStatement(sql);
+//			
+//			pstmt.setString(1, userDto.getId());
+//			pstmt.setString(2, userDto.getPassword());
+//			
+//			pstmt.execute();
+//			
+//			return true;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			DBManager.close(conn, pstmt);
+//		}
+//		
+//		return false;
+		if (!userExists(userDto)) {
 			return false;
-		
+		}
+
 		try {
-			String sql = "DELETE FROM users WHERE userId=? AND password=?";
+			conn = DBManager.getConnection();
+			
+			String sql = "DELETE FROM users WHERE userId=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, userDto.getId());
-			pstmt.setString(2, userDto.getPassword());
 			
 			pstmt.execute();
 			
@@ -305,4 +366,8 @@ public class UserDao {
 		}
 		return user;
 	}
+
+
+
+	
 }
