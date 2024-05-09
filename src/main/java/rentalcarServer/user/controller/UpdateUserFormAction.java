@@ -39,11 +39,11 @@ public class UpdateUserFormAction extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-
-		UserDao userDao = UserDao.getInstance();
 		
 		HttpSession session = request.getSession();
 
+		UserDao userDao = UserDao.getInstance();
+		
 		UserResponseDto user = (UserResponseDto) session.getAttribute("user");
 
 		String password = request.getParameter("password");
@@ -58,26 +58,43 @@ public class UpdateUserFormAction extends HttpServlet {
 			String newPassword = request.getParameter("password-new");
 			String email = request.getParameter("email");
 			
+			String license = request.getParameter("license");
+			System.out.println("license: " + license);
+			
 			String telecom = request.getParameter("telecom");
 			String phone = request.getParameter("phone");
 			
-			if(!newPassword.equals("") && !newPassword.equals(password)) {
-				user = userDao.updateUserPassword(userDto, newPassword);
-			}
 			
 			if(user.getEmail() != null && !user.getEmail().equals(email)) {
 				userDto.setEmail(email);
 				user = userDao.updateUserEmail(userDto);
 			}
+			System.out.println("user 0) : " + user);
+			
+//			if((user.getEmail() != null && !user.getEmail().equals(email)) || (user.getEmail() == null && !email.equals(""))) {
+//				userDto.setEmail(email);
+//				user = userDao.updateUserEmail(userDto);
+//			}
+			
+			if(!license.equals(user.getLicense())) {
+				userDto.setLicense(license);
+				user = userDao.updateUserLicense(userDto);
+			}
+			System.out.println("user 1) : " + user);
 			
 			if(!user.getTelecom().equals(telecom) || !user.getPhone().equals(phone)) {
 				userDto.setTelecom(telecom);
 				userDto.setPhone(phone);
 				user = userDao.updateUserPhone(userDto);
 			}
+			System.out.println("user 2) : " + user);
+			
+			if(!newPassword.equals("") && !newPassword.equals(password)) {
+				user = userDao.updateUserPassword(userDto, newPassword);
+			}
 		}
 		session.setAttribute("user", user);
-		response.sendRedirect("/mypage");
+		response.sendRedirect("/myPage");
 
 	}
 

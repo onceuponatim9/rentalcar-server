@@ -41,10 +41,10 @@ public class DeleteFormAction extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
+		HttpSession session = request.getSession();
+		
 		UserDao userDao = UserDao.getInstance();
 		
-		HttpSession session = request.getSession();
-
 		UserResponseDto user = (UserResponseDto) session.getAttribute("user");
 
 		String id = user.getId();
@@ -57,16 +57,15 @@ public class DeleteFormAction extends HttpServlet {
 		userDto.setPassword(password);
 
 		boolean result = userDao.deleteUser(userDto);
-
 		
-
-
 		if(result) {
 			session.removeAttribute("user");
 			response.sendRedirect("/");
 		} else {	
 			response.sendRedirect("/deleteUserForm");
 		}
+		
+		System.out.println("result: " + result);
 	}
 
 }
