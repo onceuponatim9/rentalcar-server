@@ -5,7 +5,48 @@ body {
 	flex-direction: column;
 	align-items: center;
 	margin: 0 auto;
+}
+
+#top-select-wrap {
+	display: grid;
+	width: 800px;
+	height: 75px;
+	margin: 0 auto;
+	background-color: black;
+	/*
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-areas:
+	"brand region fuel"
+	;
+	*/
+}
+
+#top-select-wrap select {
+	width: 80px;
+	height: 35px;
+	margin: 0 auto;
+	margin-left: 20px;
+	margin-right: 20px;
+	background-color: white;
+	font-size: 12px;
+	font-weight: 700;
+	text-align: center;
+	border-radius: 20px;
+	border: solid 1px gray;
+}
+
+#top-select-wrap option {
 	
+}
+
+#brand {
+	grid-area: brand;
+}
+#region {
+	grid-area: region;
+}
+#fuel {
+	grid-area: fuel;
 }
 
 #container-box {
