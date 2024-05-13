@@ -119,7 +119,7 @@ $(document).ready(() => {
 		
 		const gender = e.target.gender.value;
 		const country = e.target.country.value;
-		const license = e.target.country.value;
+		const license = e.target.license.value;
 		
 		const phone = $('#phone').val();
 		
