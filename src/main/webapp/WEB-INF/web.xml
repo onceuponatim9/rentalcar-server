@@ -168,12 +168,12 @@
 		<url-pattern>/carInfo</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>bookingPage</servlet-name>
-		<jsp-file>/views/user/bookingPage.jsp</jsp-file>
+		<servlet-name>bookingForm</servlet-name>
+		<jsp-file>/views/user/bookingForm.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>bookingPage</servlet-name>
-		<url-pattern>/bookingPage</url-pattern>
+		<servlet-name>bookingForm</servlet-name>
+		<url-pattern>/bookingForm</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>chargeForm</servlet-name>
