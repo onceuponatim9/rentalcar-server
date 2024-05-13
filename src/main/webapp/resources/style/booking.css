@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+h2 {
+	text-align: center;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 500px;
+	border: solid 1px lightgrey;
+	margin: 0 auto;
+	padding: 12px 36px 24px 36px;
+}
+
+form input,  
+form select
+{
+	outline: none;
+}
+
+#radio-container {
+	background-color: white;
+}
+
+#container {
+	margin-bottom: 20px;
+}
+
+form input[type="text"] {
+	width: 300px;
+	height: 30px;
+	background-color: #D9D9D9;
+	outline: none;
+	border-radius: 10px;
+	margin-right: 50px;
+}
+
+#container span {
+	display: inline-block;
+	width: 120px;
+}
